@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="字节序分2种 Little endian：小端字节序, 将低序字节存储在起始地址 Big endian：大端字节序, 将高序字节存储在起始地址  JS里面的体现: 同一段数据用不同视图读取12345const uint8 &#x3D; new Uint8Array([1, 2]);&#x2F;&#x2F; Uint8Array(2) [1, 2]const uint16 &#x3D; new Uint16Array(Uint8.buff">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JS字节序相关">
+<meta property="og:url" content="http://example.com/2020/07/30/js/endian/index.html">
+<meta property="og:site_name" content="前端小站">
+<meta property="og:description" content="字节序分2种 Little endian：小端字节序, 将低序字节存储在起始地址 Big endian：大端字节序, 将高序字节存储在起始地址  JS里面的体现: 同一段数据用不同视图读取12345const uint8 &#x3D; new Uint8Array([1, 2]);&#x2F;&#x2F; Uint8Array(2) [1, 2]const uint16 &#x3D; new Uint16Array(Uint8.buff">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-07-30T14:22:10.000Z">
+<meta property="article:modified_time" content="2022-11-03T08:27:57.261Z">
+<meta property="article:author" content="王玉龙">
+<meta property="article:tag" content="JavaScript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2020/07/30/js/endian/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2020/07/30/js/endian/","path":"2020/07/30/js/endian/","title":"JS字节序相关"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JS字节序相关 | 前端小站</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">前端小站</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">前端学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E8%8A%82%E5%BA%8F%E5%88%862%E7%A7%8D"><span class="nav-number">1.</span> <span class="nav-text">字节序分2种</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JS%E9%87%8C%E9%9D%A2%E7%9A%84%E4%BD%93%E7%8E%B0-%E5%90%8C%E4%B8%80%E6%AE%B5%E6%95%B0%E6%8D%AE%E7%94%A8%E4%B8%8D%E5%90%8C%E8%A7%86%E5%9B%BE%E8%AF%BB%E5%8F%96"><span class="nav-number">2.</span> <span class="nav-text">JS里面的体现: 同一段数据用不同视图读取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E9%87%8A%EF%BC%9A"><span class="nav-number">3.</span> <span class="nav-text">解释：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DataView-%E8%A7%86%E5%9B%BE"><span class="nav-number">4.</span> <span class="nav-text">DataView 视图:</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">王玉龙</p>
+  <div class="site-description" itemprop="description">前端 学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wyl-x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wyl-x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wylong666@gmail.com" title="E-Mail → mailto:wylong666@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2020/07/30/js/endian/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="王玉龙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端小站">
+      <meta itemprop="description" content="前端 学习笔记">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JS字节序相关 | 前端小站">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JS字节序相关
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-07-30 22:22:10" itemprop="dateCreated datePublished" datetime="2020-07-30T22:22:10+08:00">2020-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h3 id="字节序分2种"><a href="#字节序分2种" class="headerlink" title="字节序分2种"></a>字节序分2种</h3><ol>
+<li>Little endian：小端字节序, 将低序字节存储在起始地址</li>
+<li>Big endian：大端字节序, 将高序字节存储在起始地址</li>
+</ol>
+<h3 id="JS里面的体现-同一段数据用不同视图读取"><a href="#JS里面的体现-同一段数据用不同视图读取" class="headerlink" title="JS里面的体现: 同一段数据用不同视图读取"></a>JS里面的体现: 同一段数据用不同视图读取</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const uint8 = new Uint8Array([1, 2]);</span><br><span class="line">// Uint8Array(2) [1, 2]</span><br><span class="line"></span><br><span class="line">const uint16 = new Uint16Array(Uint8.buffer);</span><br><span class="line">// Uint16Array [513]</span><br></pre></td></tr></table></figure>
+<p>上面代码生成一个 2 个长度的Uint8 TypedArray，然后在它的buffer基础上，建立了一个 16 位整数的视图。<br>那么这段数据对应的二进制应该是  <code>00000001 00000010</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0b0000000100000010</span></span><br><span class="line"><span class="comment">// 258</span></span><br></pre></td></tr></table></figure>
+<p>用16位无符号整数读出来应该是 <code>0b0000000100000010</code>, 应该是258， 为什么是 513呢 ？ </p>
+<h3 id="解释："><a href="#解释：" class="headerlink" title="解释："></a>解释：</h3><p>这说明本电脑采用的小端字节序（little endian），相对重要的字节排在后面的内存地址，相对不重要字节排在前面的内存地址， 即<code> 00000010 00000001</code> </p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0b0000001000000001</span></span><br><span class="line"><span class="comment">// 513</span></span><br></pre></td></tr></table></figure>
+<p>那么如果想手动指定字节序呢 ?</p>
+<h3 id="DataView-视图"><a href="#DataView-视图" class="headerlink" title="DataView 视图:"></a>DataView 视图:</h3><ol>
+<li>支持多种类型读写</li>
+<li>支持设置字节序</li>
+</ol>
+<p>DataView视图提供更多操作选项，而且支持设定字节序。<br>默认情况下，DataView的get方法使用大端字节序解读数据，如果需要使用小端字节序解读，必须在get方法的第二个参数指定true。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const dv = new DataView(uint8.buffer);</span><br><span class="line">dv.getUint16(0)</span><br><span class="line">// 258 大端字节序</span><br><span class="line"></span><br><span class="line">dv.getUint16(0, true)</span><br><span class="line">// 513 小端字节序</span><br></pre></td></tr></table></figure>
+<p>写入数据同理。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/07/20/js/array-buffer/" rel="prev" title="ArrayBuffer转换">
+                  <i class="fa fa-chevron-left"></i> ArrayBuffer转换
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/10/23/config/vim/" rel="next" title="vim操作">
+                  vim操作 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王玉龙</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

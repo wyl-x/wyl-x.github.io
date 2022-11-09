@@ -10,6 +10,8 @@ categories: algorithm
 
 ## 方法二
 分别把两个链表的节点放入两个栈中，从两个栈的栈顶开始比较，直到找到最后一个相同的节点，就是他们的公共点。
+<!-- more -->
+
 ```js
 function findSameNode(node1, node2) {
   let result = null;

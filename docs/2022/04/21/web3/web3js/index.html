@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" integrity="sha256-AbA177XfpSnFEvgpYu1jMygiLabzPCJCRIBtR5jGc0k=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.13.2","exturl":false,"sidebar":{"position":"left","display":"always","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="最近做一个web3 的 NFT 项目， 对这方面比较陌生，记录下开发中学到的相关知识 区块链区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0 智能合约以太坊与比特币很大的不同是以太坊拥有智能合约的概念。 比特币是数字货币-价值存储。 而以太坊不单单是数字货币，它们是可以区块链上运行代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web3开发相关">
+<meta property="og:url" content="http://example.com/2022/04/21/web3/web3js/index.html">
+<meta property="og:site_name" content="前端小站">
+<meta property="og:description" content="最近做一个web3 的 NFT 项目， 对这方面比较陌生，记录下开发中学到的相关知识 区块链区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0 智能合约以太坊与比特币很大的不同是以太坊拥有智能合约的概念。 比特币是数字货币-价值存储。 而以太坊不单单是数字货币，它们是可以区块链上运行代码。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-21T12:11:39.000Z">
+<meta property="article:modified_time" content="2022-11-09T08:37:02.998Z">
+<meta property="article:author" content="王玉龙">
+<meta property="article:tag" content="web3">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2022/04/21/web3/web3js/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://example.com/2022/04/21/web3/web3js/","path":"2022/04/21/web3/web3js/","title":"web3开发相关"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>web3开发相关 | 前端小站</title>
+  
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">前端小站</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">前端学习笔记</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-about"><a href="/about/" rel="section"><i class="fa fa-user fa-fw"></i>关于</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8C%BA%E5%9D%97%E9%93%BE"><span class="nav-number">1.</span> <span class="nav-text">区块链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%99%BA%E8%83%BD%E5%90%88%E7%BA%A6"><span class="nav-number">2.</span> <span class="nav-text">智能合约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF%E7%9B%B8%E5%85%B3-x2F-DApp"><span class="nav-number">3.</span> <span class="nav-text">前端相关&#x2F; DApp</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web3-js"><span class="nav-number">4.</span> <span class="nav-text">web3.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#web3-eth"><span class="nav-number">4.1.</span> <span class="nav-text">web3-eth</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web3-shh"><span class="nav-number">4.2.</span> <span class="nav-text">web3-shh</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web3-bzz"><span class="nav-number">4.3.</span> <span class="nav-text">web3-bzz</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web3-net"><span class="nav-number">4.4.</span> <span class="nav-text">web3-net</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web3-utils"><span class="nav-number">4.5.</span> <span class="nav-text">web3-utils</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ethers-js"><span class="nav-number">5.</span> <span class="nav-text">ethers.js</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ethers-provider"><span class="nav-number">5.1.</span> <span class="nav-text">ethers.provider</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ethers-contract"><span class="nav-number">5.2.</span> <span class="nav-text">ethers.contract</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ethers-utils"><span class="nav-number">5.3.</span> <span class="nav-text">ethers.utils</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ethers-wallet"><span class="nav-number">5.4.</span> <span class="nav-text">ethers.wallet</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3"><span class="nav-number">6.</span> <span class="nav-text">参考文档</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">王玉龙</p>
+  <div class="site-description" itemprop="description">前端 学习笔记</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">16</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author site-overview-item animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/wyl-x" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wyl-x" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wylong666@gmail.com" title="E-Mail → mailto:wylong666@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+        </div>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/04/21/web3/web3js/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="王玉龙">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="前端小站">
+      <meta itemprop="description" content="前端 学习笔记">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="web3开发相关 | 前端小站">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          web3开发相关
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-04-21 20:11:39" itemprop="dateCreated datePublished" datetime="2022-04-21T20:11:39+08:00">2022-04-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JavaScript/" itemprop="url" rel="index"><span itemprop="name">JavaScript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>最近做一个web3 的 NFT 项目， 对这方面比较陌生，记录下开发中学到的相关知识</p>
+<h2 id="区块链"><a href="#区块链" class="headerlink" title="区块链"></a>区块链</h2><p>区块链(1.0)是一个基于密码学安全的分布式账本，是一个方便验证，不可篡改的账本。<br>通常认为与智能合约相结合的区块链为区块链2.0, 如以太坊是典型的区块链2.0</p>
+<h2 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h2><p>以太坊与比特币很大的不同是以太坊拥有智能合约的概念。 比特币是数字货币-价值存储。 而以太坊不单单是数字货币，它们是可以区块链上运行代码。</p>
+<p>首先要了解的是<strong>智能合约是以太坊网络上的一种特殊帐户</strong>。 我们有用户帐户，还可以拥有智能合约帐户。</p>
+<span id="more"></span>
+
+<p>用户帐户有:</p>
+<ul>
+<li>地址（有点像我们的银行帐号 - 比特币也有同样的概念）</li>
+<li>余额（我有多少钱: 以太）</li>
+</ul>
+<p>智能合约账户有：</p>
+<ul>
+<li>地址</li>
+<li>余额（有多少钱: 以太）</li>
+<li>状态</li>
+<li>代码<br>地址是帐户的唯一标识符，与常规用户帐户一样。</li>
+</ul>
+<p>余额也与常规用户帐户相同。 不同的是，智能合约的余额意味着代码可以拥有资金，它可以管理资金。因此如果代码不正确，它可能会错误处理这笔资金。</p>
+<p>智能合约帐户的状态是智能合约中声明的所有变量和变量的当前状态。 它的工作方式与大多数编程语言中的类中的变量变量相同。 实际上，最简单方法去理解智能合约可以类比为一个类实例化对象，唯一的区别是这个对象永远存在区块链网络中（除非程序进行自毁）。</p>
+<p>智能合约的代码是编译后可以在以太坊客户端和节点可以运行的字节码。 它是在创建智能合约时执行的代码，它包含我们可以调用的函数。 就像面向对象编程语言中的对象一样。</p>
+<h2 id="前端相关-x2F-DApp"><a href="#前端相关-x2F-DApp" class="headerlink" title="前端相关&#x2F; DApp"></a>前端相关&#x2F; DApp</h2><p>Web3.js 和 ethers.js 都是 JavaScript 库，其作用是使开发者可以与以太坊区块链交互。  </p>
+<h2 id="web3-js"><a href="#web3-js" class="headerlink" title="web3.js"></a>web3.js</h2><p>Web3.js 有一个主类，称为 web3。在该类中可以找到该库的大多数功能。组成 web3js 的另外 5 个模块分别是：</p>
+<ol>
+<li>web3-eth</li>
+<li>web3-shh</li>
+<li>web3-bzz</li>
+<li>web3-net</li>
+<li>web3-utils</li>
+</ol>
+<h3 id="web3-eth"><a href="#web3-eth" class="headerlink" title="web3-eth"></a>web3-eth</h3><p>web3-eth 模块中包含函数，其作用是使 web3.js 的用户可以与以太坊区块链进行交互。具体来说，这些函数能够与智能合约、归外部所有的账户、节点、挖出的区块以及交易进行交互。下面是三个说明示例：</p>
+<p>web3.eth.getBalance 的作用是获得指定区块的某个地址的以太坊余额<br>web3.eth.signTransaction 的作用是对交易签名<br>web3.eth.sendSignedTransaction 的作用是将签名的交易发送到以太坊区块链。</p>
+<h3 id="web3-shh"><a href="#web3-shh" class="headerlink" title="web3-shh"></a>web3-shh</h3><p>web3-shh 模块的作用是使你可以与 Whisper 协议进行交互。Whisper 是一个消息传输协议，其目的是轻松广播消息以及进行低层异步通信。下面显示了两个说明性示例：</p>
+<p>web3.shh.post 将 whisper 消息发布到网络<br>web3.shh.subscribe 创建传入的 whisper 消息订阅</p>
+<h3 id="web3-bzz"><a href="#web3-bzz" class="headerlink" title="web3-bzz"></a>web3-bzz</h3><p>web3-bzz 模块的作用是使你可以与 Swarm 交互。Swarm 是一个去中心化存储平台和内容分发服务，它可以用来为去中心化应用存储图片或视频等文件。下面显示了两个说明性示例：</p>
+<p>web3.bzz.upload 的作用是使你可以将文件和文件夹上传到 Swarm<br>Web3.bzz.download 的作用是使你可以从 Swarm 下载文件和文件夹</p>
+<h3 id="web3-net"><a href="#web3-net" class="headerlink" title="web3-net"></a>web3-net</h3><p>web3-net 模块的作用是使你可以与以太坊节点的网络属性进行交互。通过 web3-net，你可以采用你需要获得的信息所关联的协议后加 .net（在这里使用 * 指定，表示选择 web.eth.net、web3.shh.net 或 web3.bzz.net）来查找该节点的相关信息。下面显示了两个说明性示例：</p>
+<p>web3.<em>.net.getID 返回网络 ID<br>web3.</em>.net.getPeerCount 返回连接到节点的对等点数</p>
+<h3 id="web3-utils"><a href="#web3-utils" class="headerlink" title="web3-utils"></a>web3-utils</h3><p>web3-utils 模块为你提供实用程序函数，这些函数可在以太坊去中心化应用以及其他 web3.js 模块中使用。实用程序函数可以重复使用，使代码编写更轻松，在 JavaScript 和其他编程语言中很常见。Web3-utils 包含实用程序函数，这些函数用于转换数字、验证值是否满足特定条件以及搜索数据集。下面显示了三个说明性示例：</p>
+<p>web3.utils.toWei 将以太转换为 Wei<br>web3.utils.hexToNumberString 将十六进制值转换为字符串<br>web3.utils.isAddress，校验特定字符串是否为有效的以太坊地址。</p>
+<h2 id="ethers-js"><a href="#ethers-js" class="headerlink" title="ethers.js"></a>ethers.js</h2><p>与 web3.js 相似，ethers.js 有四个模块，构成应用程序编程界面 (API)。</p>
+<ol>
+<li>Ethers.provider</li>
+<li>Ethers.contract</li>
+<li>Ethers.utils</li>
+<li>Ethers.wallets</li>
+</ol>
+<h3 id="ethers-provider"><a href="#ethers-provider" class="headerlink" title="ethers.provider"></a>ethers.provider</h3><p>Ethers.provider 的作用是封装与以太坊区块链的连接。它可以用于签发查询和发送已签名的交易，这将改变区块链的状态。下面显示了三个说明性示例：</p>
+<p>ethers.providers.InfuraProvider 的作用是使你可以与 Infura 托管的以太坊节点网络建立连接<br>ethers.provider.getBalance 将为你获取区块链中某个地址或区块的以太坊余额<br>ethers.provider.resolve 将解析传递到以太坊地址的以太坊名称服务 (ENS) 名称</p>
+<h3 id="ethers-contract"><a href="#ethers-contract" class="headerlink" title="ethers.contract"></a>ethers.contract</h3><p>Ethers.contract 的作用是部署智能合约并与它交互。具体来说，该模块中的函数用于侦听从智能合约发射的事件、调用智能合约提供的函数、获取有关智能合约的信息，以及部署智能合约。下面显示了两个说明性示例：</p>
+<p>ethers.ContractFactory.fromSolidity 从 Solidity 编译器的编译器输出或从 Truffle 生成的 JSON 文件创建一个用于部署智能合约的“工厂”。ethers.Contract 使你可以与已部署的智能合约进行交互。</p>
+<h3 id="ethers-utils"><a href="#ethers-utils" class="headerlink" title="ethers.utils"></a>ethers.utils</h3><p>Ethers.utils 提供用于格式化数据和处理用户输入的实用程序函数。Ethers.utils 的作用方式与 web3-utils 相似，能够简化去中心化应用的构建流程。下面提供了三个示例：</p>
+<p>ethers.utils.getContractAddress 从用于部署智能合约的交易中提取智能合约地址<br>ethers.utils.computeAddress 通过传递与地址相关的公钥或私钥的函数来计算地址 ethers.utils.formatEther 将所传递的 Wei 金额转换为 Ether 十进制字符串格式</p>
+<h3 id="ethers-wallet"><a href="#ethers-wallet" class="headerlink" title="ethers.wallet"></a>ethers.wallet</h3><p>Ethers.wallet 提供的功能与我们目前讨论过的其他模块截然不同。Ethers.wallet 的作用是使你可以与现有钱包（以太坊地址）建立连接、创建新钱包以及对交易签名。下面提供了三个示例：</p>
+<p>ethers.wallet.createRandom 将创建随机新账户。<br>ethers.wallet.sign 将对交易签名并将已签名的交易返回为十六进制字符串的形式（通过“承诺”— 如果你刚接触 JavaScript，我们建议你阅读有关承诺的更多内容，它们的作用是在未来某个时间点对它们进行计算时可以返回数据）。<br>ethers.wallet.getBalance 将为我们提供钱包地址的以太坊余额。<br>Web3.js 在 web3.eth 模块中有一个类似的包，称为 web3.eth.accounts。但是，在该包的文档中有如下说明：“该包未经审核，可能不安全。在用于生产环境之前，请注意妥善清除内存，安全存储私钥，并适当测试交易接收和发送功能！”</p>
+<h2 id="参考文档"><a href="#参考文档" class="headerlink" title="参考文档"></a>参考文档</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://learnblockchain.cn/docs/web3.js/">web3.js 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://learnblockchain.cn/docs/ethers.js/">ethers.js 文档</a></li>
+<li><a target="_blank" rel="noopener" href="https://learnblockchain.cn/docs/hardhat/getting-started/#%E6%A6%82%E8%BF%B0">Hardhat 开发环境</a></li>
+<li><a target="_blank" rel="noopener" href="https://learnblockchain.cn/docs/solidity/">Solidity 文档</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/web3/" rel="tag"># web3</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/05/algorithm/list-node-same-node/" rel="prev" title="找到两个单向链表相交的第一个公共节点">
+                  <i class="fa fa-chevron-left"></i> 找到两个单向链表相交的第一个公共节点
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">王玉龙</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

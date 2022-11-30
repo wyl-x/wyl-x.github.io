@@ -7,7 +7,7 @@ date: 2022/10/12 17:15:14
 * 本科 / 5年经验
 * Github: [https://github.com/wyl-x](https://github.com/wyl-x)
 * 个人博客: [https://wyl-x.github.io/](https://wyl-x.github.io/)
-* 手机 : 18271315671
+* 手机 : 17688713579
 * Email : wylong666@gmail.com
 
 ## 技术能力
